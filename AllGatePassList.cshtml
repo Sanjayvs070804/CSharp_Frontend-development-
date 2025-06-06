@@ -1,0 +1,94 @@
+﻿@model List<VisitorManagementSystem.Models.Entites.VisitorRequest>
+
+@{
+    ViewData["Title"] = "All Visitor Gate Pass";
+}
+
+<style>
+    body {
+        background-color: #c3cfe2; /* Navy blue background */
+        font-family: 'Cabin', sans-serif; /* Set font to Cabin */
+    }
+
+    .form-box {
+        background-color: #ffffff; /* White background */
+        border: 2px solid #1a237e; /* Navy blue border */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Soft shadow */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff; /* White background for table */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Soft shadow */
+        overflow-x: auto; /* Enable horizontal scroll if needed */
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #1a237e; /* Navy blue header background */
+        color: white; /* White text for header */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Alternate row background */
+    }
+
+    tr:hover {
+        background-color: #ddd; /* Hover background color */
+    }
+
+    /* Title styling */
+    h1 {
+        text-align: center; /* Center align the title */
+        color: #1a237e; /* Navy blue title color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 3D text effect */
+        margin-top: 20px; /* Add some top margin */
+    }
+</style>
+
+<h1>All Visitor Gate Pass</h1>
+
+<div class="form-box">
+    <table>
+        <thead>
+            <tr>
+                <th>Serial Number</th>
+                <th>Visitor Name</th>
+                <th>Purpose</th>
+                <th>Designation</th>
+                <th>Visit Date</th>
+                <th>To Be Visited</th>
+                <th>Department</th>
+                <th>Visitor Address</th>
+                <th>Allowed Items</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@Model[i].VisitorName</td>
+                    <td>@Model[i].VisitPurpose</td>
+                    <td>@Model[i].Designation</td>
+                    <td>@Model[i].Date.ToString("MM/dd/yyyy")</td>
+                    <td>@Model[i].ToBeVisited</td>
+                    <td>@Model[i].DepartmentToBeVisited</td>
+                    <td>@Model[i].VisitorAddress</td>
+                    <td>@Model[i].AllowedItems</td>
+                    <td>@Model[i].Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

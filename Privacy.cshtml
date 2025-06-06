@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <style>
+
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            overflow-y: auto; /* Enable vertical scrolling */
+            max-height: calc(100vh - 150px); /* Set maximum height for container */
+        }
+
+        h1, h2 {
+            color: navy;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>@ViewData["Title"]</h1>
+    </header>
+
+    <div class="container">
+        <h2>Information Collection and Use</h2>
+        <p>We do not collect any personal information from users browsing our website.</p>
+
+        <h2>Log Data</h2>
+        <p>Like many site operators, we collect information that your browser sends whenever you visit our website. This Log Data may include information such as your computer's Internet Protocol ("IP") address, browser type, browser version, the pages of our website that you visit, the time and date of your visit, the time spent on those pages, and other statistics.</p>
+
+        <h2>Contact Us</h2>
+        <p>If you have any questions about this Privacy Policy, please contact us.</p>
+    </div>
+</body>
+</html>

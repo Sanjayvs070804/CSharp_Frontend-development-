@@ -1,0 +1,210 @@
+﻿@{
+    ViewData["Title"] = "Print Visitor Pass";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewData["Title"]</title>
+    <style>
+        body {
+            background-color: #c3cfe2; /* Navy blue background */
+            font-family: 'Cabin', sans-serif; /* Set font to Cabin */
+        }
+
+        .form-box {
+            background-color: #ffffff; /* White background */
+            border: 2px solid #1a237e; /* Navy blue border */
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Soft shadow */
+            overflow-x: auto; /* Enable horizontal scroll if needed */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff; /* White background for table */
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Soft shadow */
+            overflow-x: auto; /* Enable horizontal scroll if needed */
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #1a237e; /* Navy blue header background */
+            color: white; /* White text for header */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Alternate row background */
+        }
+
+        tr:hover {
+            background-color: #ddd; /* Hover background color */
+        }
+
+        /* Title styling */
+        h1 {
+            text-align: center; /* Center align the title */
+            color: #1a237e; /* Navy blue title color */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 3D text effect */
+            margin-top: 20px; /* Add some top margin */
+        }
+
+        .print-btn {
+            padding: 8px 16px;
+            background-color: #1a237e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+            .print-btn:hover {
+                background-color: #0d47a1;
+            }
+    </style>
+</head>
+<body>
+    <h1>@ViewData["Title"]</h1>
+    <div class="form-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Visitor Name</th>
+                    <th>Purpose</th>
+                    <th>Designation</th>
+                    <th>Date</th>
+                    <th>To Be Visited</th>
+                    <th>Department</th>
+                    <th>Visitor Address</th>
+                    <th>Allowed Items</th>
+                    <th>Security Signature</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody style="overflow-y: auto; max-height: 500px;">
+                <!-- Added style for vertical scrolling -->
+                @foreach (var visitorRequest in Model)
+                {
+                    if (visitorRequest.Status == "Approved")
+                    {
+                        <tr>
+                            <td>@visitorRequest.VisitorName</td>
+                            <td>@visitorRequest.VisitPurpose</td>
+                            <td>@visitorRequest.Designation</td>
+                            <td>@visitorRequest.Date.ToShortDateString()</td>
+                            <td>@visitorRequest.ToBeVisited</td>
+                            <td>@visitorRequest.DepartmentToBeVisited</td>
+                            <td>@visitorRequest.VisitorAddress</td>
+                            <td>@visitorRequest.AllowedItems</td>
+                            <td></td>
+                            <td>
+                                <button class="print-btn" onclick="printContent(this)">Print</button>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        function printContent(button) {
+            // Find the parent row of the button
+            var row = button.closest('tr');
+
+            // Create a temporary table
+            var tempTable = document.createElement('table');
+
+            // Create a header row for the temporary table
+            var headerRow = document.createElement('tr');
+
+            // Create header cells for the temporary table and copy content from the original header row
+            var originalHeaderCells = document.querySelectorAll('thead tr th');
+            originalHeaderCells.forEach(cell => {
+                var headerCell = document.createElement('th');
+                headerCell.textContent = cell.textContent;
+                headerRow.appendChild(headerCell);
+            });
+
+            // Add the header row to the temporary table
+            tempTable.appendChild(headerRow);
+
+            // Copy row content to the temporary table
+            tempTable.innerHTML += row.innerHTML;
+
+            // Remove the last cell (action column) from each row in the temporary table
+            tempTable.querySelectorAll('tr').forEach(row => {
+                row.removeChild(row.lastElementChild);
+            });
+
+            // Create a new window
+            var printWindow = window.open('', '_blank');
+
+            // Write HTML content to the new window
+            printWindow.document.write('<html><head><title>Print Gate Pass</title>');
+
+            // Write style for the table, image, and content area
+            printWindow.document.write(`
+                    <style>
+                        table, th, td {
+                            border: 1px solid black;
+                            border-collapse: collapse;
+                            padding: 10px;
+                            text-align: center;
+                        }
+                        img {
+                            max-width: 500px;
+                            display: block;
+                            margin: 0 auto;
+                        }
+                        body {
+                            padding: 10px;
+                        }
+                    </style>
+                `);
+
+            // Close head tag and open body tag
+            printWindow.document.write('</head><body>');
+
+            // Set body content with table and logo
+            printWindow.document.body.innerHTML = `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h2>Print Gate Pass</h2>
+                        <img src="https://www.bhel.com/sites/default/files/logo_0.png" alt="Company Logo">
+                    </div>
+                ` + tempTable.outerHTML;
+
+            // Close HTML
+            printWindow.document.write('</body></html>');
+
+            // Close the document
+            printWindow.document.close();
+
+            // Print the new window
+            printWindow.print();
+
+            // Close the print window after printing or cancelling
+            setTimeout(function () {
+                printWindow.close();
+                // Navigate back to the previous page
+                window.history.back();
+            }, 1000); // Adjust delay as needed
+        }
+    </script>
+
+
+
+</body>
+</html>

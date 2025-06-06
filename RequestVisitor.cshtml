@@ -1,0 +1,138 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model VisitorManagementSystem.Models.VisitorPassRequestModelView
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Visitor Page</title>
+    <style>
+        body {
+            background-color: #c3cfe2;
+            font-family: 'Cabin', sans-serif;
+        }
+
+        .form-box {
+            background-color: #ffffff;
+            border: 2px solid #1a237e;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #1a237e;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #1a237e;
+        }
+
+        .form-control {
+            width: 100%;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            padding: 10px;
+            box-sizing: border-box;
+            transition: border-color 0.2s ease;
+        }
+
+            .form-control:focus {
+                border-color: #1a237e;
+                outline: none;
+            }
+
+        select.form-control {
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%231a237e" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+        }
+
+        .form-group select.form-control:focus {
+            border-color: #1a237e;
+        }
+
+        .submit-btn {
+            background-color: #1a237e;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+            .submit-btn:hover {
+                background-color: #0d47a1;
+            }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <div class="form-box">
+                <h2>Visitor Pass Form</h2>
+                <form method="post" id="visitor-form">
+                    <div class="form-group">
+                        <label for="visitor-name">Name of the Visitor:</label>
+                        <input type="text" class="form-control" id="visitor-name" name="VisitorName" required asp-for="VisitorName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="purpose">Purpose:</label>
+                        <input type="text" class="form-control" id="purpose" name="VisitPurpose" required asp-for="VisitPurpose">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="designation">Designation:</label>
+                        <input type="text" class="form-control" id="designation" name="designation" required asp-for="Designation">
+                    </div>
+                    <div class="form-group">
+                        <label for="department">Department to visit:</label>
+                        <select class="form-control" id="department" name="DepartmentToBeVisited" required asp-for="DepartmentToBeVisited">
+                            <option value="marketing">Marketing</option>
+                            <option value="finance">Finance</option>
+                            <option value="hr">HR</option>
+                            <option value="it">IT</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Date:</label>
+                        <input type="date" class="form-control" id="date" name="date" required asp-for="Date">
+                    </div>
+                    <div class="form-group">
+                        <label for="visitor-address">Address of the Visitor:</label>
+                        <input type="text" class="form-control" id="visitor-address" name="VisitorAddress" required asp-for="VisitorAddress">
+                    </div>
+                    <div class="form-group">
+                        <label for="to-be-visited">To be Visited:</label>
+                        <input type="text" class="form-control" id="to-be-visited" name="ToBeVisited" required asp-for="ToBeVisited">
+                    </div>
+                    <div class="form-group">
+                        <label for="allowed-items">Allowed Items:</label><br>
+                        <input type="text" class="form-control" id="allowed-item" name="AllowedItems" placeholder="Allowed Item" asp-for="AllowedItems">
+                    </div>
+                    <button type="submit" id="submitBtn" class="btn btn-primary submit-btn">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

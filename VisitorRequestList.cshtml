@@ -1,0 +1,172 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+@model List<VisitorManagementSystem.Models.Entites.VisitorRequest>
+
+<style>
+    body {
+        background-color: #c3cfe2; /* Navy blue background */
+        font-family: 'Cabin', sans-serif; /* Set font to Cabin */
+    }
+
+    .form-box {
+        background-color: #ffffff; /* White background */
+        border: 2px solid #1a237e; /* Navy blue border */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1); /* Soft shadow */
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #fff; /* White background for table */
+        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* Soft shadow */
+        overflow-x: auto; /* Enable horizontal scroll if needed */
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+    }
+
+    th {
+        background-color: #1a237e; /* Navy blue header background */
+        color: white; /* White text for header */
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2; /* Alternate row background */
+    }
+
+    tr:hover {
+        background-color: #ddd; /* Hover background color */
+    }
+
+    /* Title styling */
+    h1 {
+        text-align: center; /* Center align the title */
+        color: #1a237e; /* Navy blue title color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 3D text effect */
+        margin-top: 20px; /* Add some top margin */
+    }
+
+    /* Button container styling */
+    .button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+    }
+
+        .button-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    .approve-btn {
+        background-color: #4caf50; /* Green button for approve */
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .approve-btn:hover {
+            background-color: #388e3c; /* Darker green on hover */
+        }
+
+    .reject-btn {
+        background-color: #f44336; /* Red button for reject */
+        color: white;
+        transition: background-color 0.3s ease;
+    }
+
+        .reject-btn:hover {
+            background-color: #d32f2f; /* Darker red on hover */
+        }
+</style>
+
+<h1>Visitor Pass Requests</h1>
+<div class="form-box">
+    <table>
+        <thead>
+            <tr>
+                 <th>Pass Number</th> 
+                <th>Visitor Name</th>
+                <th>Purpose</th>
+                <th>Designation</th>
+                <th>Date</th>
+                <th>To Be Visited</th>
+                <th>Department</th>
+                <th>Visitor Address</th>
+                <th>Allowed Items</th>
+                <th>Allowed or Reject Employee</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var visitorRequset in Model)
+            {
+                if (visitorRequset.Status == "Pending")
+                {
+                <tr>
+                    <td>@visitorRequset.Id</td> 
+                    <td>@visitorRequset.VisitorName</td>
+                    <td>@visitorRequset.VisitPurpose</td>
+                   <td>@visitorRequset.Designation</td>
+
+                    <td>@visitorRequset.Date</td>
+                    <td>@visitorRequset.ToBeVisited</td>
+                    <td>@visitorRequset.DepartmentToBeVisited</td>
+                    <td>@visitorRequset.VisitorAddress</td>
+                    <td>@visitorRequset.AllowedItems</td>
+                                                                  <!-- Display data -->
+
+
+                        <td colspan="9" style="display: flex;justify-content: space-between;">
+                                    @using (Html.BeginForm("Approve", "VisitorRequest", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("id", visitorRequset.Id)
+                                <button type="submit" class="btn approve-btn onclick="confirmApproval('approveForm')">Approve</button>
+                                    }
+                                    @using (Html.BeginForm("Reject", "VisitorRequest", FormMethod.Post))
+                                    {
+                                        @Html.Hidden("id", visitorRequset.Id)
+                                <button type="submit" class="btn reject-btn onclick="confirmRejection('rejectForm')">Reject</button>
+                                    }
+                            </td>
+                              
+                          
+                </tr>
+                }
+            }
+
+          
+            <!-- Add more rows as needed -->
+        </tbody>
+    </table>
+    <script>
+        function submitForm(formId) {
+            var formData = $("#" + formId).serialize();
+            $.ajax({
+                type: "POST",
+                url: $("#" + formId).attr("action"),
+                data: formData,
+                success: function () {
+                    alert("Data has been updated. Redirecting to All Gate Pass List...");
+                    window.location.href = "@Url.Action("AllGatePassList", "VisitorRequest")";
+                },
+                error: function () {
+                    alert("Error occurred while processing the request.");
+                }
+            });
+        }
+    </script>
+
+</div>
